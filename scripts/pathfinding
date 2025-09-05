@@ -1,0 +1,22 @@
+extends CharacterBody2D
+
+const SPEED = 40
+
+@export var player: Node2D
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+
+func _physics_process(delta: float) -> void:
+	if not player:
+		return
+
+	# Always update target to player’s position
+	nav_agent.target_position = player.global_position
+
+	# Get next path point and move towards it
+	if nav_agent.is_navigation_finished():
+		velocity = Vector2.ZERO
+	else:
+		var next_point = nav_agent.get_next_path_position()
+		var dir = (next_point - global_position).normalized()
+		velocity = dir * SPEED
+		move_and_slide()
