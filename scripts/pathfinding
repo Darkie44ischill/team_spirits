@@ -1,22 +1,23 @@
-extends CharacterBody2D
+extends CharacterBody2D 
 
-const SPEED = 40
+const SPEED = 40 
+@export var player: Node 
+@onready var nav_agent := $NavigationAgent2D  as NavigationAgent2D 
+@onready var update_timer := $UpdateTimer as Timer 
 
-@export var player: Node2D
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+func _ready() -> void: 
+	update_timer.start() 
 
-func _physics_process(delta: float) -> void:
-	if not player:
-		return
+func _physics_process(delta: float) -> void: 
+	if nav_agent.is_navigation_finished(): 
+		velocity = Vector2.ZERO 
+	else: 
+		var next_point = nav_agent.get_next_path_position() 
+		var dir = (next_point - global_position).normalized() 
+		velocity = velocity.lerp(dir * SPEED, 0.1) 
+		move_and_slide() 
 
-	# Always update target to player’s position
-	nav_agent.target_position = player.global_position
-
-	# Get next path point and move towards it
-	if nav_agent.is_navigation_finished():
-		velocity = Vector2.ZERO
-	else:
-		var next_point = nav_agent.get_next_path_position()
-		var dir = (next_point - global_position).normalized()
-		velocity = dir * SPEED
-		move_and_slide()
+func _on_update_timer_timeout() -> void:
+	if player: 
+		nav_agent.set_target_position(player.global_position)
+		
