@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7i25aky6ee42"]
+
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://Virtual-Joystick-Godot-1ef9454a4221238984beb463fe59efdba7893cfb/addons/virtual_joystick/virtual_joystick_scene.tscn" id="1_uah84"]
+[ext_resource type="Script" uid="uid://ctg5xjn23ff7b" path="res://Virtual-Joystick-Godot-1ef9454a4221238984beb463fe59efdba7893cfb/addons/virtual_joystick/virtual_joystick_scene.gd" id="2_8io03"]
+
+[node name="touch control" type="CanvasLayer"]
+
+[node name="Virtual Joystick" parent="." instance=ExtResource("1_uah84")]
+anchors_preset = -1
+anchor_top = 0.997
+anchor_bottom = 0.997
+offset_top = -646.056
+offset_bottom = -350.056
+scale = Vector2(2, 2)
+script = ExtResource("2_8io03")
